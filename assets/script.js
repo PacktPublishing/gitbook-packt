@@ -61,7 +61,9 @@ require(["gitbook"], function(gitbook) {
     });
 
     gitbook.events.bind("page.change", function() {
-      videojs(document.getElementsByClassName('video-js')[0], {}, function() {});
+      if(document.getElementsByClassName('video-js')[0]){
+        videojs(document.getElementsByClassName('video-js')[0], {}, function() {});
+      };
       if(isAvailable()) {
         track(gitbook.state.filepath);
       };

@@ -2,7 +2,7 @@
   "name": "gitbook-plugin-packt",
   "description": "Support for Packt courses, styling and analytics",
   "main": "index.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "engines": {
     "gitbook": ">=3.0.0"
   },
