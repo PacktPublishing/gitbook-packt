@@ -12,10 +12,6 @@ require(["gitbook"], function(gitbook) {
         );
     };
 
-    var isChrome = function() {
-      return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-    }
-
     var rando = function(arr) {
       return arr[Math.floor(Math.random() * arr.length)];
     };
@@ -26,16 +22,9 @@ require(["gitbook"], function(gitbook) {
       var animal = rando(['aardvark', 'albatross', 'alligator', 'alpaca', 'ant', 'anteater', 'antelope', 'armadillo', 'baboon', 'badger', 'barracuda', 'bass', 'bat', 'bear', 'beaver', 'bird', 'bison', 'bittern', 'bloodhound', 'boar', 'bobcat', 'bovine', 'buffalo', 'bullfinch', 'bullock', 'butterfly', 'buzzard', 'camel', 'caribou', 'cat', 'cattle', 'cheetah', 'chicken', 'chimpanzee', 'chinchilla', 'clam', 'cod', 'colt', 'cow', 'coyote', 'crab', 'crane', 'crocodile', 'crow', 'deer', 'dog', 'dolphin', 'donkey', 'dove', 'duck', 'eagle', 'elephant', 'elk', 'ewe', 'falcon', 'ferret', 'finch', 'fish', 'flamingo', 'fly', 'flying-fish', 'fowl', 'fox', 'frog', 'gerbil', 'giraffe', 'gnat', 'goat', 'goldfinch', 'goldfish', 'goose', 'gorilla', 'grasshopper', 'greyhound', 'grouse', 'hamster', 'hare', 'hawk', 'hedgehog', 'hen', 'heron', 'herring', 'hippopotamus', 'hornet', 'horse', 'hound', 'hummingbird', 'hyena', 'hyrax', 'impala', 'jackrabbit', 'jellyfish', 'kangaroo', 'kitten', 'koala', 'lark', 'lemur', 'leopard', 'lion', 'llama', 'lobster', 'lynx', 'mackerel', 'magpie', 'mallard', 'manatee', 'meerkat', 'mink', 'minnow', 'mole', 'monkey', 'moose', 'mosquito', 'mouse', 'mule', 'muskrat', 'nighthawk', 'nightingale', 'orangutan', 'ostrich', 'otter', 'owl', 'oyster', 'panda', 'parrot', 'partridge', 'peacock', 'peafowl', 'pelican', 'penguin', 'pheasant', 'pigeon', 'pike', 'polecat', 'pony', 'porcupine', 'porpoise', 'possum', 'quail', 'rabbit', 'raccoon', 'racoon', 'raven', 'reindeer', 'rhinoceros', 'rooster', 'salmon', 'sandpiper', 'sardine', 'scorpion', 'seal', 'shark', 'sheep', 'sparrow', 'squirrel', 'stallion', 'starling', 'stork', 'swallow', 'swan', 'swine', 'swordfish', 'tiger', 'toad', 'tortoise', 'toucan', 'trout', 'turkey', 'turtle', 'wallaby', 'walrus', 'whale', 'wolf', 'wombat', 'woodpecker', 'wren', 'yak', 'zebra']);
       var modifier = (Math.floor((Math.random() * 10000) + 1)).toString();
 
-      if(!isChrome()){
-        return {
-          username: `${adjective}-${color}-${animal}-${modifier}`,
-          email: `${adjective}-${animal}@${color}-${modifier}.com`
-        };
-      } else {
-        return {
-          username: `chrome-user`,
-          email: `chrome-user@googlechrome-2015.com`
-        };
+      return {
+        username: `${adjective}-${color}-${animal}-${modifier}`,
+        email: `${adjective}-${animal}@${color}-${modifier}.com`
       };
     };
 
@@ -46,21 +35,19 @@ require(["gitbook"], function(gitbook) {
     };
 
     gitbook.events.bind("start", function(e, config) {
-      $(".gitbook-link").html('Built with GitBook');
       config.mixpanel = config.mixpanel || {};
       mixpanel.init(config.mixpanel.token);
       var user = anonify();
       if(isAvailable())
       {
-        if(!isChrome()) {
-          if(typeof(Storage) !== "undefined") {
-            if(localStorage.getItem("packt-user")) {
-              user = JSON.parse(localStorage.getItem("packt-user"));
-            } else {
-              localStorage.setItem("packt-user", JSON.stringify(user));
-            };
+        if(typeof(Storage) !== "undefined") {
+          if(localStorage.getItem("packt-user")) {
+            user = JSON.parse(localStorage.getItem("packt-user"));
+          } else {
+            localStorage.setItem("packt-user", JSON.stringify(user));
           };
         };
+
         mixpanel.identify(user.username);
         mixpanel.people.set({
           "$username": user.username,
@@ -74,6 +61,7 @@ require(["gitbook"], function(gitbook) {
     });
 
     gitbook.events.bind("page.change", function() {
+      videojs(document.getElementsByClassName('video-js')[0], {}, function() {});
       if(isAvailable()) {
         track(gitbook.state.filepath);
       };
