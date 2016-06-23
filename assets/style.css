@@ -1,4 +1,3 @@
 img { display: block; margin: auto; }
-.gitbook-link, .dropdown-menu .buttons:last-child { display:none!important; }
-.summary > li:first-child { display: none!important; }
 .video-js { margin: 25px 0 30px 0 !important; }
+.dropdown-menu .buttons:last-child { display:none!important; }
